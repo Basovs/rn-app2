@@ -1,12 +1,12 @@
-import React from "react"
-import { StyleSheet, Text, View } from "react-native"
+import React, { useState } from "react"
+import { StyleSheet, Text, View, Button } from "react-native"
 
 export default function App() {
+  const [outputText, setOutputText] = useState("Nomaini manu tekstu.")
   return (
     <View style={styles.container}>
-      <Text style={styles.paragraph}>
-        Open up App.js to start working on your app!
-      </Text>
+      <Text style={styles.paragraph}>{outputText}</Text>
+      <Button title="Tryck mig" onPress={() => setOutputText("Es Tevi ljoti miilu")} />
     </View>
   )
 }
