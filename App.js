@@ -1,24 +1,21 @@
 import React, { useState } from "react"
-import {
-  StyleSheet,
-  Text,
-  View,
-  Button,
-  TextInput,
-  ScrollView,
-  FlatList
-} from "react-native"
+import { StyleSheet, Text, View, Button, TextInput, ScrollView, FlatList } from "react-native"
 
 export default function App() {
-  const [enteredGoal, setEnteredGoal] = useState("")
-  const [courseGoals, setCourseGoals] = useState([])
+  // State handler
+  const [input, setInput] = useState("")
+  const [taskArr, setTaskArr] = useState([])
 
-  const taskHandler = enteredText => setEnteredGoal(enteredText)
+  // The Logic here
+  const taskHandler = enteredText => setInput(enteredText)
 
-  const addGoalHandler = () =>
-    setCourseGoals(currentGoals => [
+  const addTask = () =>
+    setTaskArr(currentGoals => [
       ...currentGoals,
-      { id: Math.random().toString(), value: enteredGoal }
+      {
+        id: Math.random().toString(),
+        value: input
+      }
     ])
 
   return (
@@ -28,13 +25,13 @@ export default function App() {
           placeholder="Course Goal"
           style={styles.textInput}
           onChangeText={taskHandler}
-          value={enteredGoal}
+          value={input}
         />
-        <Button title="ADD" onPress={addGoalHandler} />
+        <Button title="ADD" onPress={addTask} />
       </View>
       <FlatList
         keyExtractor={(item, index) => item.id}
-        data={courseGoals}
+        data={taskArr}
         renderItem={itemData => (
           <View style={styles.listItem}>
             <Text>{itemData.item.value}</Text>
