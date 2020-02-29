@@ -1,41 +1,51 @@
 import React, { useState } from "react"
-import { StyleSheet, Text, View, Button, TextInput, ScrollView, FlatList } from "react-native"
+import { StyleSheet, View, FlatList, Button } from "react-native"
+
+import TaskItem from "./components/TaskItem"
+import TaskInput from "./components/TaskInput"
 
 export default function App() {
-  // State handler
-  const [input, setInput] = useState("")
   const [taskArr, setTaskArr] = useState([])
+  const [overlay, setOverlay] = useState(false)
 
-  // The Logic here
-  const taskHandler = enteredText => setInput(enteredText)
-
-  const addTask = () =>
-    setTaskArr(currentGoals => [
-      ...currentGoals,
+  const addTask = taskTitle => {
+    setTaskArr(currentTasks => [
+      ...currentTasks,
       {
         id: Math.random().toString(),
-        value: input
+        value: taskTitle
       }
     ])
+    setOverlay(false)
+  }
+
+  const removeTask = taskId => {
+    setTaskArr(currentTasks => {
+      return currentTasks.filter(task => task.id !== taskId)
+    })
+  }
+
+  const cancelAddTask = () => {
+    setOverlay(false)
+  }
 
   return (
     <View style={styles.body}>
-      <View style={styles.inputContainer}>
-        <TextInput
-          placeholder="Course Goal"
-          style={styles.textInput}
-          onChangeText={taskHandler}
-          value={input}
-        />
-        <Button title="ADD" onPress={addTask} />
-      </View>
+      <Button title="Add new task" onPress={() => setOverlay(true)} />
+      <TaskInput
+        visible={overlay}
+        onAddTask={addTask}
+        onCancel={cancelAddTask}
+      />
       <FlatList
         keyExtractor={(item, index) => item.id}
         data={taskArr}
         renderItem={itemData => (
-          <View style={styles.listItem}>
-            <Text>{itemData.item.value}</Text>
-          </View>
+          <TaskItem
+            id={itemData.item.id}
+            value={itemData.item.value}
+            onDelete={removeTask}
+          />
         )}
       />
     </View>
@@ -45,21 +55,5 @@ export default function App() {
 const styles = StyleSheet.create({
   body: {
     padding: 60
-  },
-  inputContainer: {
-    flexDirection: "row",
-    justifyContent: "center"
-  },
-  textInput: {
-    borderBottomColor: "black",
-    borderBottomWidth: 1,
-    padding: 10,
-    width: "100%"
-  },
-  listItem: {
-    padding: 10,
-    margin: 10,
-    borderRadius: 10,
-    backgroundColor: "#ccc"
   }
 })
