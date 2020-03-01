@@ -32,20 +32,13 @@ export default function App() {
   return (
     <View style={styles.body}>
       <Button title="Add new task" onPress={() => setOverlay(true)} />
-      <TaskInput
-        visible={overlay}
-        onAddTask={addTask}
-        onCancel={cancelAddTask}
-      />
+      <TaskInput visible={overlay} onAddTask={addTask} onCancel={cancelAddTask} />
       <FlatList
+        style={styles.flatlist}
         keyExtractor={(item, index) => item.id}
         data={taskArr}
         renderItem={itemData => (
-          <TaskItem
-            id={itemData.item.id}
-            value={itemData.item.value}
-            onDelete={removeTask}
-          />
+          <TaskItem id={itemData.item.id} value={itemData.item.value} onDelete={removeTask} />
         )}
       />
     </View>
@@ -55,5 +48,8 @@ export default function App() {
 const styles = StyleSheet.create({
   body: {
     padding: 60
+  },
+  flatlist: {
+    height: "100%"
   }
 })

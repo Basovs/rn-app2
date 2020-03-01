@@ -21,8 +21,12 @@ const TaskInput = props => {
           value={input}
         />
         <View style={styles.btnContainer}>
-          <Button title="CANCEL" color="red" onPress={props.onCancel} />
-          <Button title="ADD" onPress={addTaskHandler} />
+          <View style={styles.btn}>
+            <Button title="CANCEL" color="red" onPress={props.onCancel} />
+          </View>
+          <View style={styles.btn}>
+            <Button title="ADD" onPress={addTaskHandler} />
+          </View>
         </View>
       </View>
     </Modal>
@@ -43,8 +47,12 @@ const styles = StyleSheet.create({
     marginBottom: 30
   },
   btnContainer: {
-    flexDirection: "row",
-    justifyContent: "space-between"
+    flexDirection: "row-reverse",
+    justifyContent: "space-between",
+    width: "60%"
+  },
+  btn: {
+    width: "35%"
   }
 })
 
